@@ -1,3 +1,19 @@
+# Branch Specific Changes
+
+This branch allows to **select the cipher suite used by TLS** by setting the `CIPHER_SUITE` environment variable.
+If the environment variable is unset, the cipher suite will be selected as usual.
+
+It also implements a **new TLS cipher suite** `TLS_NOOP_SHA256`, which uses an AEAD algorithm where plaintext equals ciphertext and which outputs a constant authentication tag (`0x2a2a2a...`).
+
+Possible values for the `CIPHER_SUITE` environment variable:
+
+| Cipher Suite Name              | Value for `CIPHER_SUITE` |
+|--------------------------------|--------------------------|
+| `TLS_AES_128_GCM_SHA256`       | `0x03001301`             |
+| `TLS_AES_256_GCM_SHA384`       | `0x03001302`             |
+| `TLS_CHACHA20_POLY1305_SHA256` | `0x03001303`             |
+| `TLS_NOOP_SHA256`              | `0x03004242`             |
+
 # BoringSSL
 
 BoringSSL is a fork of OpenSSL that is designed to meet Google's needs.

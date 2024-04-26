@@ -287,6 +287,18 @@ static constexpr SSL_CIPHER kCiphers[] = {
       SSL_HANDSHAKE_MAC_SHA256,
     },
 
+    // NOOP Cipher
+    {
+      "TLS_NOOP_SHA256", // OpenSSL name for the cipher
+      "TLS_NOOP_SHA256", // IETF name for the cipher
+      TLS1_3_CK_NOOP_SHA256, // id
+      SSL_kGENERIC, // algorithm_mkey
+      SSL_aGENERIC, // algorithm_auth
+      SSL_NOOP, // algorithm_enc
+      SSL_AEAD, // algorithm_mac
+      SSL_HANDSHAKE_MAC_SHA256, // algorithm_prf
+    },
+
     // Cipher C009
     {
      TLS1_TXT_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,
@@ -546,6 +558,7 @@ static const CIPHER_ALIAS kCipherAliases[] = {
     {"AES", ~0u, ~0u, SSL_AES, ~0u, 0},
     {"AESGCM", ~0u, ~0u, SSL_AES128GCM | SSL_AES256GCM, ~0u, 0},
     {"CHACHA20", ~0u, ~0u, SSL_CHACHA20POLY1305, ~0u, 0},
+    {"NOOP", ~0u, ~0u, SSL_NOOP, ~0u, 0},
 
     // MAC aliases
     {"SHA1", ~0u, ~0u, ~0u, SSL_SHA1, 0},
@@ -601,6 +614,9 @@ bool ssl_cipher_get_evp_aead(const EVP_AEAD **out_aead,
       *out_fixed_iv_len = 4;
     } else if (cipher->algorithm_enc == SSL_CHACHA20POLY1305) {
       *out_aead = EVP_aead_chacha20_poly1305();
+      *out_fixed_iv_len = 12;
+    } else if (cipher->algorithm_enc == SSL_NOOP) {
+      *out_aead = EVP_aead_noop();
       *out_fixed_iv_len = 12;
     } else {
       return false;
@@ -1542,6 +1558,7 @@ int SSL_CIPHER_get_bits(const SSL_CIPHER *cipher, int *out_alg_bits) {
     case SSL_AES256:
     case SSL_AES256GCM:
     case SSL_CHACHA20POLY1305:
+    case SSL_NOOP:
       alg_bits = 256;
       strength_bits = 256;
       break;
@@ -1639,6 +1656,10 @@ const char *SSL_CIPHER_description(const SSL_CIPHER *cipher, char *buf,
 
     case SSL_CHACHA20POLY1305:
       enc = "ChaCha20-Poly1305";
+      break;
+
+    case SSL_NOOP:
+      enc = "NOOP";
       break;
 
     default:

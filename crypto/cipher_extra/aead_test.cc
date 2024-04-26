@@ -152,6 +152,8 @@ static const struct KnownAEAD kAEADs[] = {
 
     {"AES_128_CCM_Matter", EVP_aead_aes_128_ccm_matter,
      "aes_128_ccm_matter_tests.txt", 0},
+
+    {"NOOP", EVP_aead_noop, "noop_tests.txt", 0},
 };
 
 class PerAEADTest : public testing::TestWithParam<KnownAEAD> {

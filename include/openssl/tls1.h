@@ -457,6 +457,7 @@ extern "C" {
 #define TLS1_3_CK_AES_128_GCM_SHA256 0x03001301
 #define TLS1_3_CK_AES_256_GCM_SHA384 0x03001302
 #define TLS1_3_CK_CHACHA20_POLY1305_SHA256 0x03001303
+#define TLS1_3_CK_NOOP_SHA256 0x03004242
 
 // The following constants are legacy aliases of |TLS1_3_CK_*|.
 // TODO(davidben): Migrate callers to the new name and remove these.

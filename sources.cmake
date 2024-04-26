@@ -28,6 +28,7 @@ set(
   crypto/cipher_extra/test/cipher_tests.txt
   crypto/cipher_extra/test/des_ede3_cbc_sha1_tls_implicit_iv_tests.txt
   crypto/cipher_extra/test/des_ede3_cbc_sha1_tls_tests.txt
+  crypto/cipher_extra/test/noop_tests.txt
   crypto/cipher_extra/test/nist_cavp/aes_128_cbc.txt
   crypto/cipher_extra/test/nist_cavp/aes_128_ctr.txt
   crypto/cipher_extra/test/nist_cavp/aes_128_gcm.txt
